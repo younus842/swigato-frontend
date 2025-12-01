@@ -1,0 +1,29 @@
+.login-button34 {
+  background-color: #f4b56d;
+  padding-top: 9.5px;
+  cursor: default;
+}
+
+.success-message {
+  text-align: center;
+  color: rgb(15, 194, 15);
+  font-size: 24px;
+}
+
+.button-success {
+  font-size: 17px;
+  margin-right: 5px;
+}
+
+
+.button-success:hover {
+  border-radius: 3px;
+  background-color: rgb(9, 185, 9)
+}
+
+@media screen and (max-width: 767px) {
+  .signup-card {
+    padding-bottom: 30px;
+  }
+
+}

@@ -1,0 +1,22 @@
+/* Write your CSS here */
+.span-heading {
+  color: #475569;
+  font-size: 17px;
+}
+
+.cart-summary {
+  padding-bottom: 50px;
+}
+
+.heading {
+  font-size: 23px;
+}
+
+.nav-link {
+  font-size: 17px !important;
+}
+
+.button-checkout {
+  margin-top: 0px !important;
+  
+}

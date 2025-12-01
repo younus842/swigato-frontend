@@ -1,0 +1,30 @@
+.signup-container {
+font-size: 13px;
+align-items: center;
+margin-top: 6px;
+justify-content: flex-end;
+width: 100%;
+}
+
+.para-signup {
+  margin: 0px;
+  padding: 0px;
+  padding-right: 5px;
+  color: rgb(68, 62, 62);
+  font-size: 12px;
+}
+
+.signup-button {
+  border: none;
+  background: transparent;
+  color: rgb(4, 117, 247);
+  font-weight: 500;
+  padding-bottom: 2px;
+}
+
+.signup-button:hover {
+  border-radius: 4px;
+  background-color: rgb(58, 145, 245);
+  color: white;
+
+}
