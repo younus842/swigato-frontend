@@ -51,8 +51,11 @@ class LoginForm extends Component {
 
   submitForm = async (event) => {
     event.preventDefault();
-    this.setState({ loading: true });
     const { username, password } = this.state;
+    if (username == "" && password == "") {
+      return;
+    }
+    this.setState({ loading: true });
     const userDetails = { email: username, password };
     const url2 = "https://swigato-backend-5.onrender.com/auth/login";
     const options = {
