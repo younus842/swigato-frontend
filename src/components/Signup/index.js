@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import "./index.css";
 import SignupButton from "../SignupButton";
-import Image2 from '../../assets/logo-restaurant.png'
+import Image2 from "../../assets/logo-restaurant.png";
+import Loader from "../Loader";
+
 const Signup = (props) => {
   const { signup } = props;
   const [name, setName] = useState("");
@@ -10,6 +12,7 @@ const Signup = (props) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [check, handleChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (name != "" && email != "" && password != "") {
@@ -21,6 +24,7 @@ const Signup = (props) => {
 
   const handleSignup = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     if (name == "" || email == "" || password == "") {
       return;
@@ -32,30 +36,39 @@ const Signup = (props) => {
       password,
     };
 
-    const response = await fetch("https://swigato-backend-3.onrender.com/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userDetails),
-    });
+    const response = await fetch(
+      "https://swigato-backend-5.onrender.com/auth/signup",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userDetails),
+      }
+    );
 
     const data = await response.json();
 
     if (!response.ok) {
       setSuccessMsg("");
       setErrorMsg(data.message || "Signup failed");
+      setLoading(false);
     } else {
       setErrorMsg("");
       setSuccessMsg("Signup successful!");
       setName("");
       setEmail("");
       setPassword("");
+      setLoading(false);
     }
   };
 
   return (
     <form className="form-container signup-card mb-4" onSubmit={handleSignup}>
       <div className="header-logo-container mb-4">
-        <img className="website-image-logo d-none d-md-block" src={Image2} alt="website logo" />
+        <img
+          className="website-image-logo d-none d-md-block"
+          src={Image2}
+          alt="website logo"
+        />
         <p className="swigato-2 d-md-block d-none">Swigato</p>
       </div>
       {successMsg !== "Signup successful!" ? (
@@ -105,14 +118,22 @@ const Signup = (props) => {
               }}
             />
           </div>
-          {check ? (
-            <button type="submit" className="login-button">
-              Sign Up
-            </button>
+          {loading ? (
+            <Loader login = {true}/>
           ) : (
-            <p className="login-button login-button34 text-center">Sign Up</p>
+            <>
+              {check ? (
+                <button type="submit" className="login-button">
+                  Sign Up
+                </button>
+              ) : (
+                <p className="login-button login-button34 text-center">
+                  Sign Up
+                </p>
+              )}
+              <SignupButton boolean={false} signup={signup} />
+            </>
           )}
-          <SignupButton boolean={false} signup={signup} />
         </>
       ) : (
         successMsg && (
@@ -132,7 +153,7 @@ const Signup = (props) => {
         )
       )}
 
-      {errorMsg && <p className="error-message">*{errorMsg}</p>}
+      {!loading && errorMsg && <p className="error-message">*{errorMsg}</p>}
     </form>
   );
 };

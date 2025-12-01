@@ -6,6 +6,7 @@ import Image2 from "../../assets/logo-restaurant.png";
 import "./index.css";
 import Signup from "../Signup";
 import SignupButton from "../SignupButton";
+import Loader from "../Loader";
 
 function withNavigation(Component) {
   return function WrappedComponent(props) {
@@ -21,6 +22,7 @@ class LoginForm extends Component {
     showSubmitError: false,
     errorMsg: "",
     login: true,
+    loading: false,
   };
 
   onChangeUsername = (event) => {
@@ -39,19 +41,20 @@ class LoginForm extends Component {
         expires: 30,
       }
     );
+    this.setState({ loading: false });
     this.props.navigate("/", { replace: true });
   };
 
   onSubmitFailure = (errorMsg) => {
-    this.setState({ showSubmitError: true, errorMsg });
+    this.setState({ showSubmitError: true, errorMsg, loading: false });
   };
 
   submitForm = async (event) => {
     event.preventDefault();
+    this.setState({ loading: true });
     const { username, password } = this.state;
     const userDetails = { email: username, password };
-    const url2 = 'https://swigato-backend-3.onrender.com/auth/login';
-    const url = "http://localhost:5000/auth/login";
+    const url2 = "https://swigato-backend-5.onrender.com/auth/login";
     const options = {
       method: "POST",
       headers: {
@@ -61,7 +64,6 @@ class LoginForm extends Component {
     };
     const response = await fetch(url2, options);
     const data = await response.json();
-    console.log(data);
     if (response.ok === true) {
       this.onSubmitSuccess(data.token);
     } else {
@@ -116,7 +118,7 @@ class LoginForm extends Component {
   };
 
   render() {
-    const { showSubmitError, errorMsg, login } = this.state;
+    const { showSubmitError, errorMsg, login, loading } = this.state;
     const jwtToken = Cookies.get("jwt_token");
 
     return (
@@ -144,14 +146,19 @@ class LoginForm extends Component {
                 <div className="input-container">
                   {this.renderPasswordField()}
                 </div>
-                <button type="submit" className="login-button">
-                  Login
-                </button>
-                {showSubmitError && (
-                  <p className="error-message">*{errorMsg}</p>
+                {loading ? (
+                  <Loader login = {true}/>
+                ) : (
+                  <>
+                    <button type="submit" className="login-button">
+                      Login
+                    </button>
+                    {showSubmitError && (
+                      <p className="error-message">*{errorMsg}</p>
+                    )}
+                    <SignupButton signup={this.signup} boolean={true} />
+                  </>
                 )}
-
-                <SignupButton signup={this.signup} boolean={true} />
               </form>
             ) : (
               <Signup signup={this.signup} />
@@ -170,11 +177,19 @@ class LoginForm extends Component {
               <div className="input-container">
                 {this.renderPasswordField()}
               </div>
-              <button type="submit" className="login-button">
-                Login
-              </button>
-              {showSubmitError && <p className="error-message">*{errorMsg}</p>}
-              <SignupButton signup={this.signup} boolean={true} />
+              {loading ? (
+                <Loader login = {true}/>
+              ) : (
+                <>
+                  <button type="submit" className="login-button">
+                    Login
+                  </button>
+                  {showSubmitError && (
+                    <p className="error-message">*{errorMsg}</p>
+                  )}
+                  <SignupButton signup={this.signup} boolean={true} />
+                </>
+              )}
             </form>
           ) : (
             <Signup signup={this.signup} />

@@ -1,14 +1,24 @@
 import React from "react";
 import { ThreeDots } from "react-loader-spinner";
 
-function Loader() {
+let valued = "40vh";
+
+function Loader(props) {
+  const { login } = props;
+
+  if (login) {
+    valued = "10vh";
+  }
+
   return (
-    <div style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "40vh",
-    }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: `${valued}`,
+      }}
+    >
       <ThreeDots
         visible={true}
         height="30"
