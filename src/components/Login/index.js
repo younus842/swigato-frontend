@@ -1,6 +1,6 @@
 import { Component } from "react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import Image from "../../assets/login-image.jpg";
 import Image2 from "../../assets/logo-restaurant.png";
 import "./index.css";
@@ -123,6 +123,10 @@ class LoginForm extends Component {
   render() {
     const { showSubmitError, errorMsg, login, loading } = this.state;
     const jwtToken = Cookies.get("jwt_token");
+
+    if (jwtToken !== undefined) {
+      return  <Navigate to="/" replace />;
+    }
 
     return (
       <div className="login-form-container">
